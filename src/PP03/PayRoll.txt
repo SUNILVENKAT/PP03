@@ -1,0 +1,7 @@
+employee, 1011, Jack, Johnson, FULLTIME, 1246 Drake St, 104, Fort Collins, Coloardo, 80526
+employee, 1021, John, Filis, HOURLY, 1022 Shorebird Dr, 12, Fort Collins, Colorado, 80525
+employee, 1034, Alice, Walter, FULLTIME, 5811 S College Ave, 156, Fort Collins, Colorado, 80525 
+payRecord, 15, 1011, 3500<m>, 8<n>, 4, 03/16/2020, 11/20/2020
+payRecord, 10, 1021, 30<h>, 15.8<r>, 1, 01/01/2019, 01/05/2019
+payRecord, 18, 1034, 5000<m>, 6<n>, 7, 06/14/2020, 12/18/2020
+ 
