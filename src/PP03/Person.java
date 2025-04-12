@@ -43,7 +43,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person [fName=" + fName + ", lName=" + lName + ", address=" + address + "]";
+		return fName + "\t" + lName + "\t" + address.toString();
 	}
     
 
