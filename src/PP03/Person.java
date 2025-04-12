@@ -7,7 +7,7 @@ public class Person {
     protected Address address;
     
     public Person(){
-    	
+
     }
     
 	public Person(String fName, String lName, Address address) {
@@ -15,7 +15,7 @@ public class Person {
 		this.fName = fName;
 		this.lName = lName;
 		this.address = address;
-	}
+		}
 
 	public String getfName() {
 		return fName;

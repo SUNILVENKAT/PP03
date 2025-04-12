@@ -32,7 +32,7 @@ public class UserGUI extends JPanel {
 	  public UserGUI() {
 		  
                  // prompt the user to input the number of pay records
-                 int n; // is the number of pay records for employees
+                 int n=0; // is the number of pay records for employees
 		 payRoll = new PayRoll(fileName,n);
 
 	    initGUI();
