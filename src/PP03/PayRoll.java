@@ -10,6 +10,7 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 public class PayRoll {
 	
@@ -138,7 +139,7 @@ public class PayRoll {
 		// creates a new PayRecord for an Employee object and add it to  the payRecords array, you need to pass parameters to this method
 		payRecords[PayRecord.getPayRecordCount()] = new PayRecord(id, employee, payPeriod, hours, rate);
 	}
-    public  void displayPayRecord(){
+    public  void displayPayRecord(JTextArea textArea){
 		
 		// it shows all payroll records for all currently added employee and the total net pay and average net pay in the GUI text area
     	// at should append data to text area, it must not overwrite data in the GUI text area
@@ -153,7 +154,7 @@ public class PayRoll {
     	dispString += "\tTotal No. of Employees\t\tTotal Net Pay\t\tAverage Net Pay\n";
     	dispString += "\t"+PayRecord.getPayRecordCount() + "\t\t" +totalNetPay + "\t\t" + avgNetPay;
     	
-    	
+    	textArea.setText(dispString);
 	}
 
     
