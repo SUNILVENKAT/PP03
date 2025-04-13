@@ -47,7 +47,7 @@ public class Employee extends Person{
 
 	@Override
 	public String toString() {
-		return "Employee [eID=" + eID + ", empStatus=" + empStatus + "]";
+		return  super.toString() + "\t" + eID + "\t" + empStatus;
 	}
     
     

@@ -28,7 +28,7 @@ public class PayRoll {
 	}
 	
 	
-   public void readFromFile(){
+   public void readFromFile() throws ParseException{
 		
 		// read the initial data from PayRoll file to create the full 
 	   // pay records with gross pay, taxes, and net pay, and then store it in PayRecord.txt file
@@ -42,17 +42,61 @@ public class PayRoll {
 			while ((line = br.readLine()) != null) {
 				
 				String[] stringArr = line.split(",");
-				for (String s:stringArr) {
-					if(line.contains("employee")) {
-						
-					}
-					else if(line.contains("payRecord")) {
-						
-					}
-				}
-				   
 				
-				System.out.println();
+				if(line.contains("employee")) {
+					int id = Integer.parseInt(stringArr[1]);
+					String fname = stringArr[2].trim();
+					String lname = stringArr[3].trim();
+					Status status = null;
+					if(stringArr[4].trim().equalsIgnoreCase("FULLTIME")) {
+						status = Status.FullTime;
+					}else if(stringArr[4].trim().equalsIgnoreCase("HOURLY")) {
+						status = Status.Hourly;
+					}
+					String street = stringArr[5];
+					int houseNo = Integer.parseInt(stringArr[6]);
+					String city = stringArr[7];
+					String state = stringArr[8];
+					int zipCode = Integer.parseInt(stringArr[9]);
+					
+					createEmployee(id, status, lname, fname, street, houseNo, city, state, zipCode);
+					
+				}else if(line.contains("payRecord")) {
+					int id = Integer.parseInt(stringArr[1]);
+					int empId = Integer.parseInt(stringArr[2]);
+					double payHours = 0;
+					double payRate = 0;
+					double monthlyIncome = 0;
+					int numMonths = 0;
+					if(stringArr[3].contains("m")) {
+						monthlyIncome = Double.parseDouble(stringArr[3].substring(0, stringArr[3].indexOf("<")-1));
+						numMonths = Integer.parseInt(stringArr[4].substring(0, stringArr[4].indexOf("<")-1));
+					}else if (stringArr[3].contains("h")) {
+						payRate = Double.parseDouble(stringArr[3].substring(0, stringArr[3].indexOf("<")-1));
+						payHours =Double.parseDouble(stringArr[4].substring(0, stringArr[4].indexOf("<")-1));
+					}
+					int pId = Integer.parseInt(stringArr[5]);
+					Date startDate = new java.text.SimpleDateFormat("yyyy/MM/dd").
+							parse(new java.text.SimpleDateFormat("yyyy/MM/dd").format(new java.text.SimpleDateFormat("MM/dd/yyyy").parse(stringArr[6])));
+					Date endDate = new java.text.SimpleDateFormat("yyyy/MM/dd").
+							parse(new java.text.SimpleDateFormat("yyyy/MM/dd").format(new java.text.SimpleDateFormat("MM/dd/yyyy").parse(stringArr[7])));
+					Employee employee = null;
+					
+					for(int i = 0; i < Employee.getEmployeeCount(); i++) {
+						if(employees[i].geteID() == empId) {
+							employee = employees[i];
+						}
+					}
+					
+					if(employee.getEmpStatus() == Status.FullTime) {
+						createPayRecord(id, employee, new PayPeriod(pId, startDate, endDate), monthlyIncome, numMonths);
+					}
+					else if(employee.getEmpStatus() ==  Status.Hourly) {
+						createPayRecord(id, employee, new PayPeriod(pId, startDate, endDate), payHours, payRate);
+					}
+					
+				}
+				
 			}
 
 		} catch (IOException e) {
@@ -74,36 +118,56 @@ public class PayRoll {
 		
 	} 
    
-	public Employee createEmployee(int eID, Status empStatus, String fname, String lname,Address address){
+	public Employee createEmployee(int eID, Status empStatus, String fname, String lname, String street, int houseNo, String city, String state, int zipcode){
 		// creates a new Employee object and add it to the employees array, you need to pass parameters to this method
-		Employee emp = new Employee(eID, empStatus, fname, lname, address);
+		Employee emp = new Employee(eID, empStatus, fname, lname, new Address(street, houseNo, city, state, zipcode));
 		employees[Employee.getEmployeeCount()] = emp;
 		return emp;
 	}
 	
  
-	public void createPayRecord(Employee employee ){
+	public void createPayRecord(int id, Employee employee, PayPeriod payPeriod,double monthlyIncome, int nmonths ){
 		
 		// creates a new PayRecord for an Employee object and add it to  the payRecords array, you need to pass parameters to this method
-		
-		
-		
+		payRecords[PayRecord.getPayRecordCount()] = new PayRecord(id, employee, payPeriod, monthlyIncome, nmonths);
 		
 	}
 	
-	
+	public void createPayRecord(int id, Employee employee, PayPeriod payPeriod,double hours, double rate){
+		
+		// creates a new PayRecord for an Employee object and add it to  the payRecords array, you need to pass parameters to this method
+		payRecords[PayRecord.getPayRecordCount()] = new PayRecord(id, employee, payPeriod, hours, rate);
+	}
     public  void displayPayRecord(){
 		
 		// it shows all payroll records for all currently added employee and the total net pay and average net pay in the GUI text area
     	// at should append data to text area, it must not overwrite data in the GUI text area
-		
+    	String dispString = "Pay Record ID\tFirst Name\tLastName\tStreet\tHouse Number\tCity\tState\tZipCode\tEmployee ID\tEmployee Status\t"
+    			+ "\tPay Period ID\tPay start date\tPay end date\tHours\tHourly Rate\tMontly Income\tNo. of months\tGross Pay\tTax\tNet Pay\n";
+    	
+    	for(int i = 0; i < PayRecord.getPayRecordCount(); i++) {
+    		dispString  += payRecords[i].toString() + "\n";
+    	}
+    	dispString += "\n\n";
+    	
+    	dispString += "\tTotal No. of Employees\t\tTotal Net Pay\t\tAverage Net Pay\n";
+    	dispString += "\t"+PayRecord.getPayRecordCount() + "\t\t" +totalNetPay + "\t\t" + avgNetPay;
+    	
+    	
 	}
 
     
    public double avgNetPay(){
 		
 		  	// returns the average of the total net pay of all added employees
-	   return 0;
+	   
+	   for(int i = 0; i < PayRecord.getPayRecordCount(); i++) {
+		   totalNetPay += payRecords[i].netPay();
+	   }
+	   
+	   avgNetPay = totalNetPay/PayRecord.getPayRecordCount();
+	   
+	   return avgNetPay;
 		
 	}
     	
