@@ -123,7 +123,9 @@ public class PayRecord {
 	@Override
 	public String toString() {
 		return rID + "\t" + employee.toString() + "\t" + payPeriod.toString() + "\t" +
-				+ payHours + "\t" + payRate + "\t" + montlyIncome + "\t" + numMonths + "\t" + grossPay() + payTax.compIncomeTax(grossPay()) + netPay();
+				+ payHours + "\t" + payRate + "\t" + montlyIncome + "\t" + numMonths + "\t" + String.format("%.2f", grossPay()) + "\t" +
+				String.format("%.2f", payTax.compIncomeTax(grossPay()))+ "\t" +
+				String.format("%.2f", netPay());
 	}
 
 	// complete the code in this method to compute the net pay of the employee after taxes (state and federal)
