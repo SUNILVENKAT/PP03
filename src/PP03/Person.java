@@ -1,21 +1,21 @@
 package PP03;
 
 public class Person {
-	
-	protected String fName ;
-    protected String lName ;
-    protected Address address;
-    
-    public Person(){
 
-    }
-    
+	protected String fName;
+	protected String lName;
+	protected Address address;
+
+	public Person() {
+
+	}
+
 	public Person(String fName, String lName, Address address) {
 		super();
 		this.fName = fName;
 		this.lName = lName;
 		this.address = address;
-		}
+	}
 
 	public String getfName() {
 		return fName;
@@ -45,6 +45,5 @@ public class Person {
 	public String toString() {
 		return fName + "\t" + lName + "\t" + address.toString();
 	}
-    
 
 }
