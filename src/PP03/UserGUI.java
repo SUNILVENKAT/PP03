@@ -85,7 +85,7 @@ public class UserGUI extends JPanel {
 	private JButton buttonAddPayRecord;
 
 	private JLabel labelRecordStats;
-	private JTextArea TextAreaRecordStats;
+	private JTextArea textAreaRecordStats;
 	private JButton CloseButton;
 	// private JTextArea textArea;
 	// private JComboBox combList;
@@ -249,10 +249,10 @@ public class UserGUI extends JPanel {
 
 		this.labelRecordStats = new JLabel("Current Employee Record and Stat (Total & Average Pays):");
 		this.labelRecordStats.setForeground(Color.BLUE);
-		this.TextAreaRecordStats = new JTextArea(5,5);
-		this.TextAreaRecordStats.setSize(getWidth() - 5, getHeight() - 5 );
-		this.TextAreaRecordStats.setEditable(false);
-		jp = new JScrollPane(this.TextAreaRecordStats);
+		this.textAreaRecordStats = new JTextArea(5,5);
+		this.textAreaRecordStats.setSize(getWidth() - 5, getHeight() - 5 );
+		this.textAreaRecordStats.setEditable(false);
+		jp = new JScrollPane(this.textAreaRecordStats);
 		jp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// jp.setWheelScrollingEnabled(true);
@@ -420,9 +420,9 @@ public class UserGUI extends JPanel {
 		bottom.add(new JSeparator(SwingConstants.HORIZONTAL));
 		bottom.add(this.labelRecordStats);
 		bottom.add(Box.createRigidArea(new Dimension(0, 5)));
-		bottom.add(this.TextAreaRecordStats);
-		this.TextAreaRecordStats.setSize(new Dimension(10, 10));
-		// bottom.add(jp);
+		bottom.add(this.textAreaRecordStats);
+		this.textAreaRecordStats.setSize(new Dimension(10, 10));
+		bottom.add(jp);
 		bottom.add(new JSeparator(SwingConstants.HORIZONTAL));
 
 		JPanel panelCloseButton = new JPanel();
@@ -434,7 +434,7 @@ public class UserGUI extends JPanel {
 		setLayout(new BorderLayout(5, 5));
 		add(panelEmp, BorderLayout.PAGE_START);
 		add(panelPay, BorderLayout.CENTER);
-		add(jp, BorderLayout.SOUTH);
+		//add(jp, BorderLayout.SOUTH);
 		add(bottom, BorderLayout.SOUTH);
 		
 
@@ -857,7 +857,7 @@ public class UserGUI extends JPanel {
 			this.radioHourly.setForeground(Color.BLACK);
 			this.fieldPayrollId.requestFocusInWindow();
 			if(this.radioHourly.isSelected()) {
-				//this.payRoll.createPayRecord(eID,  , null, payHour, payRate);
+				this.payRoll.createPayRecord(this.rID,  , null, payHour, payRate);
 				this.fieldPayRecordPayHours.setText("");
 				this.fieldPayRecordPayRate.setText("");
 
@@ -871,7 +871,8 @@ public class UserGUI extends JPanel {
 
 	private void updateTextarea() {
 
-		TextAreaRecordStats.setText(payRoll.displayPayRecord());
+		//TextAreaRecordStats.setText(payRoll.displayPayRecord());
+		payRoll.displayPayRecord(this.textAreaRecordStats);
 		/*
 		 * if(combList.getSelectedItem().toString().compareToIgnoreCase("") == 0)
 		 * textArea.append("This is an editable JTextArea. " +
