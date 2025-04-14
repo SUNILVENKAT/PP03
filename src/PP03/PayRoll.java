@@ -106,7 +106,7 @@ public class PayRoll {
 			}
 
 			avgNetPay();
-			
+
 			writeToFile();
 
 		} catch (IOException e) {
@@ -126,33 +126,31 @@ public class PayRoll {
 		// write employees' pay records to the PayRecord.txt file, it should add
 		// employee pay record to the current file data
 
+		try {
+			String data = "Pay Record ID\tFirst Name\tLastName\tStreet\tHouse Number\tCity\tState\tZipCode\tEmployee ID\tEmployee Status\t"
+					+ "Pay Period ID\tPay start date\tPay end date\tHours\tHourly Rate\tMontly Income\tNo. of months\tGross Pay\tTax\tNet Pay\n";
 
+			for (int i = 0; i < PayRecord.getPayRecordCount(); i++) {
+				data += payRecords[i].toString() + "\n";
+			}
+			data += "\n\n";
 
-        try {
-    		String data = "Pay Record ID\tFirst Name\tLastName\tStreet\tHouse Number\tCity\tState\tZipCode\tEmployee ID\tEmployee Status\t"
-    				+ "Pay Period ID\tPay start date\tPay end date\tHours\tHourly Rate\tMontly Income\tNo. of months\tGross Pay\tTax\tNet Pay\n";
+			data += "\tTotal No. of Employees\tTotal Net Pay\tAverage Net Pay\n";
+			data += "\t" + PayRecord.getPayRecordCount() + "\t" + totalNetPay + "\t" + avgNetPay;
 
-    		for (int i = 0; i < PayRecord.getPayRecordCount(); i++) {
-    			data += payRecords[i].toString() + "\n";
-    		}
-    		data += "\n\n";
+			File newTextFile = new File("PayRecord.txt");
 
-    		data += "\tTotal No. of Employees\tTotal Net Pay\tAverage Net Pay\n";
-    		data += "\t" + PayRecord.getPayRecordCount() + "\t" + totalNetPay + "\t" + avgNetPay;
-    		
-            File newTextFile = new File("PayRecord.txt");
+			FileWriter fw = new FileWriter(newTextFile, true);
+			BufferedWriter bw = new BufferedWriter(fw);
 
-            FileWriter fw = new FileWriter(newTextFile,true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            
-            bw.newLine();
-            bw.write(data);
-            bw.close();
+			bw.newLine();
+			bw.write(data);
+			bw.close();
 
-        } catch (IOException iox) {
-            //do stuff with exception
-            iox.printStackTrace();
-        }
+		} catch (IOException iox) {
+			// do stuff with exception
+			iox.printStackTrace();
+		}
 	}
 
 	public Employee createEmployee(int eID, Status empStatus, String fname, String lname, String street, int houseNo,
@@ -194,10 +192,11 @@ public class PayRoll {
 		dispString += "\n\n";
 
 		dispString += "\tTotal No. of Employees\tTotal Net Pay\tAverage Net Pay\n";
-		dispString += "\t" + PayRecord.getPayRecordCount() + "\t" + totalNetPay + "\t" + avgNetPay;
+		dispString += "\t" + PayRecord.getPayRecordCount() + "\t" + totalNetPay + "\t"
+				+ String.format("%.2f", avgNetPay);
 
 		textArea.setText(dispString);
-		
+
 	}
 
 	public double avgNetPay() {
