@@ -96,9 +96,9 @@ public class PayRoll {
 					}
 
 					if (employee.getEmpStatus() == Status.FullTime) {
-						createPayRecord(id, employee, new PayPeriod(pId, startDate, endDate), monthlyIncome, numMonths);
+						createPayRecord(id, empId, new PayPeriod(pId, startDate, endDate), monthlyIncome, numMonths);
 					} else if (employee.getEmpStatus() == Status.Hourly) {
-						createPayRecord(id, employee, new PayPeriod(pId, startDate, endDate), payHours, payRate);
+						createPayRecord(id, empId, new PayPeriod(pId, startDate, endDate), payHours, payRate);
 					}
 
 				}
@@ -162,18 +162,32 @@ public class PayRoll {
 		return emp;
 	}
 
-	public void createPayRecord(int id, Employee employee, PayPeriod payPeriod, double monthlyIncome, int nmonths) {
+	public void createPayRecord(int id, int empId, PayPeriod payPeriod, double monthlyIncome, int nmonths) {
 
 		// creates a new PayRecord for an Employee object and add it to the payRecords
 		// array, you need to pass parameters to this method
+		Employee employee = null;
+		
+		for (int i = 0; i < Employee.getEmployeeCount(); i++) {
+			if (employees[i].geteID() == empId) {
+				employee = employees[i];
+			}
+		}
 		payRecords[PayRecord.getPayRecordCount()] = new PayRecord(id, employee, payPeriod, monthlyIncome, nmonths);
 
 	}
 
-	public void createPayRecord(int id, Employee employee, PayPeriod payPeriod, double hours, double rate) {
+	public void createPayRecord(int id, int empId, PayPeriod payPeriod, double hours, double rate) {
 
 		// creates a new PayRecord for an Employee object and add it to the payRecords
 		// array, you need to pass parameters to this method
+		Employee employee = null;
+		
+		for (int i = 0; i < Employee.getEmployeeCount(); i++) {
+			if (employees[i].geteID() == empId) {
+				employee = employees[i];
+			}
+		}
 		payRecords[PayRecord.getPayRecordCount()] = new PayRecord(id, employee, payPeriod, hours, rate);
 	}
 
